@@ -19,7 +19,7 @@ namespace Newsblur
             this.newsblurapi = newsblurapi;
         }
 
-        public async Task<bool> Login(string username, string password = null)
+        public async Task<CodeResult> Login(string username, string password = null)
         {
             var paramdict = new Dictionary<string, string>();
             paramdict["username"] = username;
@@ -29,8 +29,30 @@ namespace Newsblur
             }
             var content = new FormUrlEncodedContent(paramdict);
             var response = await PostAsync(new Uri(newsblurapi, "api/login"), content);
-            dynamic result = new JsonSerializer().Deserialize(new JsonTextReader(new StreamReader(await response.Content.ReadAsStreamAsync())));
-            return result.code == 1;
+            return new JsonSerializer().Deserialize<CodeResult>(new JsonTextReader(new StreamReader(await response.Content.ReadAsStreamAsync())));
+        }
+
+        public async Task<CodeResult> Logout()
+        {
+            var response = await PostAsync(new Uri(newsblurapi, "api/logout"), null);
+            return new JsonSerializer().Deserialize<CodeResult>(new JsonTextReader(new StreamReader(await response.Content.ReadAsStreamAsync())));
+        }
+
+        public async Task<CodeResult> Signup(string username, string password = null, string email = null)
+        {
+            var paramdict = new Dictionary<string, string>();
+            paramdict["username"] = username;
+            if (password != null)
+            {
+                paramdict["password"] = password;
+            }
+            if (email != null)
+            {
+                paramdict["email"] = email;
+            }
+            var content = new FormUrlEncodedContent(paramdict);
+            var response = await PostAsync(new Uri(newsblurapi, "api/signup"), content);
+            return new JsonSerializer().Deserialize<CodeResult>(new JsonTextReader(new StreamReader(await response.Content.ReadAsStreamAsync())));
         }
     }
 }
