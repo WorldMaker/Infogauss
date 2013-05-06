@@ -6,4 +6,4 @@ Windows Phone 8.
 ----
 
 .. [1] News = Info; A typically used algorithm for blurring images is the gaussian blur;
-       Infogauss sounds like "infocus" as in the opposite of a blur. /overexplanation
+       Infogauss sounds like "infocus" (when anglicized) as in the opposite of a blur. /overexplanation
